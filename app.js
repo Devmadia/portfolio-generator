@@ -1,3 +1,6 @@
+// in order to use File System, the below constant is necessary
+const fs = require('fs');
+
 // profileDataArgs array
 const profileDataArgs = process.argv.slice(2, process.argv.length);
 
@@ -51,5 +54,18 @@ const generatePage = (name, github) => {
 // wrap the string in backticks and interpolate the variables with the ${<variable>} syntax
 // console.log(generatePage('Jane', 'janehub'));
 
-console.log(name, github);
-console.log(generatePage(name, github));
+// console.log(name, github);
+// console.log(generatePage(name, github));
+
+// writefile arguments to create and output file; HTML string; callback function to handle any errors and announce success in a message
+
+
+
+//  callback function block with conditional statement to check for err
+fs.writeFile('index.html', generatePage(name, github), err => {
+
+    // if an error exists, it'll throw an error message out
+    if (err) throw err;
+  
+    console.log('Portfolio complete! Check out index.html to see the output!');
+});
