@@ -1,14 +1,26 @@
+const inquirer = require('inquirer');
+
+inquirer
+  .prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'What is your name?'
+    }
+  ])
+  .then(answers => console.log(answers));
+
 // receiving module.exports from page-template.js
-const generatePage = require('./src/page-template.js');
+// const generatePage = require('./src/page-template.js');
 
 // in order to use File System, the below constant is necessary
-const fs = require('fs');
+// const fs = require('fs');
 
 // profileDataArgs array
-const profileDataArgs = process.argv.slice(2, process.argv.length);
+// const profileDataArgs = process.argv.slice(2, process.argv.length);
 
 // array index
-const [name, github] = profileDataArgs;
+// const [name, github] = profileDataArgs;
 
 // const printProfileData = profileDataArr => {
 //     for (let i = 0; i < profileDataArr.length; i += 1) {
@@ -46,10 +58,10 @@ const [name, github] = profileDataArgs;
 
 
 //  callback function block with conditional statement to check for err
-fs.writeFile('./index.html', generatePage(name, github), err => {
+// fs.writeFile('./index.html', generatePage(name, github), err => {
 
-    // if an error exists, it'll throw an error message out
-    if (err) throw new Error(err);
+//     // if an error exists, it'll throw an error message out
+//     if (err) throw new Error(err);
   
-    console.log('Portfolio complete! Check out index.html to see the output!');
-});
+//     console.log('Portfolio complete! Check out index.html to see the output!');
+// });
