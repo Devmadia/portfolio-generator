@@ -29,15 +29,22 @@ const promptUser = () => {
         }
       },
       {
+        // confirmation question
+        type: 'confirm',
+        name: 'confirmAbout',
+        message: 'Would you like to enter some information about yourself for an "About" section?',
+        default: true
+      },
+      {
         type: 'input',
         name: 'about',
-        message: 'Provide some information about yourself:'
-      }
+        message: 'Provide some information about yourself:',
+        //will only prompt the question if the function assigned to it returns true
+        when: ({ confirmAbout }) => confirmAbout // conditional code based on the answers the user has supplied thus far
+      },
     ]);
   };
     
-//   promptUser().then(answers => console.log(answers));
-
 const promptProject = portfolioData => {
     // projects array for portfolioData
     portfolioData.projects = [];
