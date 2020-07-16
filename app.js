@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const inquirer = require('inquirer');
+
 const generatePage = require('./src/page-template');
 
 const promptUser = () => {
@@ -22,8 +23,8 @@ const promptUser = () => {
         type: 'input',
         name: 'github',
         message: 'Enter your GitHub Username (Required)',
-        validate: nameInput => {
-          if (nameInput) {
+        validate: gitHubInput  => {
+          if (gitHubInput ) {
             return true;
           } else {
             console.log('Please enter your GitHub Username!');
@@ -49,8 +50,8 @@ const promptUser = () => {
   };
     
 const promptProject = portfolioData => {
-    // projects array for portfolioData
-    portfolioData.projects = [];
+    // // projects array for portfolioData
+    // portfolioData.projects = [];
 
     // If there's no 'projects' array property, create one
 
@@ -69,8 +70,8 @@ const promptProject = portfolioData => {
         type: 'input',
         name: 'name',
         message: 'What is the name of your project? (Required)',
-        validate: nameInput => {
-          if (nameInput) {
+        validate: projectNameInput => {
+          if (projectNameInput) {
             return true;
           } else {
             console.log('Please enter the name of your project!');
@@ -81,20 +82,28 @@ const promptProject = portfolioData => {
       {
         type: 'input',
         name: 'description',
-        message: 'Provide a description of the project (Required)'
+        message: 'Provide a description of the project (Required)',
+        validate: descriptionInput => {
+          if (descriptionInput) {
+            return true;
+          } else {
+            console.log('Please enter a description of the project!');
+            return false;
+          }
+        }
       },
       {
         type: 'checkbox',
         name: 'languages',
-        message: 'What did you this project with? (Check all that apply)',
+        message: 'What did you use with this project with? (Check all that apply)',
         choices: ['JavaScript', 'HTML', 'CSS', 'ES6', 'jQuery', 'Bootstrap', 'Node']
       },
       {
         type: 'input',
         name: 'link',
         message: 'Enter the GitHub link to your project.  (Required)',
-        validate: nameInput => {
-          if (nameInput) {
+        validate: linkInput => {
+          if (linkInput) {
             return true;
           } else {
             console.log('Please enter the GitHub link to your project.');
@@ -129,27 +138,22 @@ const promptProject = portfolioData => {
 
         });
 };
-  
+
 promptUser()
-    .then(promptProject)
-    .then(portfolioData => {
-        const pageHTML = generatePage(portfolioData);
-    });
-
-// file source write file module
-fs.writeFile('./dist/index.html', pageHTML, err => {
-  if (err) {
+  .then(promptProject)
+  .then(portfolioData => {
+    return generatePage(portfolioData);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
     console.log(err);
-    return;
-  }
-  console.log('Page created! Check out index.html in this directory to see it!');
-
-  // file source copy file module
-  fs.copyFile('./src/style.css', './dist/style.css', err => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log('Style sheet copied successfully!');
-  });
 });
